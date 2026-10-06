@@ -1,5 +1,6 @@
 # ⚖️ LLM Response Evaluator
 
+
 A Streamlit app that compares two AI responses to the same prompt and scores them against a rubric, using Google Gemini as the judge. It includes an optional position-bias check that re-runs the judgement with the responses swapped and flags it when the verdict changes.
 
 Built to show structured LLM evaluation in practice: rubric-based scoring, schema-validated JSON output, and a simple guard against one of the best-known weaknesses of LLM judges.
@@ -17,7 +18,9 @@ Built to show structured LLM evaluation in practice: rubric-based scoring, schem
 
 ## Screenshots
 
-_Add screenshots of the app here, for example `docs/screenshot.png`._
+<img width="1600" height="793" alt="WhatsApp Image 2026-10-06 at 18 13 57" src="https://github.com/user-attachments/assets/d6073d1e-d4c2-4d99-8ca7-2efea1d5fbef" />
+<img width="1600" height="797" alt="WhatsApp Image 2026-10-06 at 18 15 51" src="https://github.com/user-attachments/assets/31689d36-a1f5-44d6-ad1c-024b644eb4d0" />
+<img width="1600" height="792" alt="WhatsApp Image 2026-10-06 at 18 16 10" src="https://github.com/user-attachments/assets/a9ecd927-88db-4831-971c-d7046ab2de9a" />
 
 ## Technologies used
 
