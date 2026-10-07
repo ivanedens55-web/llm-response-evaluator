@@ -3,11 +3,21 @@
 import csv
 import datetime
 import io
+import logging
 
 import streamlit as st
 
 from gemini_client import AIError
-from judge import DEFAULT_CRITERIA, evaluate
+from judge import (
+    DEFAULT_CRITERIA,
+    MAX_PROMPT_CHARS,
+    MAX_REFERENCE_CHARS,
+    MAX_RESPONSE_CHARS,
+    evaluate,
+)
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+logger = logging.getLogger(__name__)
 
 EXAMPLE = {
     "prompt": "Explain the difference between a list and a tuple in Python, with a short example.",
@@ -43,7 +53,7 @@ def render_sidebar():
     criteria = {name: DEFAULT_CRITERIA[name] for name in chosen}
 
     custom = st.sidebar.text_input(
-        "Custom criterion (optional)", placeholder="e.g. Tone: friendly and professional"
+        "Custom criterion (optional)", max_chars=200, placeholder="e.g. Tone: friendly and professional"
     )
     if custom.strip():
         name, _, desc = custom.partition(":")
@@ -60,14 +70,14 @@ def render_sidebar():
 
 def render_inputs():
     st.button("Load example", on_click=load_example)
-    st.text_area("Prompt", key="prompt", height=100, placeholder="The prompt both responses were answering")
+    st.text_area("Prompt", key="prompt", height=100, max_chars=MAX_PROMPT_CHARS, placeholder="The prompt both responses were answering")
     col_a, col_b = st.columns(2)
     with col_a:
-        st.text_area("Response A", key="response_a", height=240)
+        st.text_area("Response A", key="response_a", height=240, max_chars=MAX_RESPONSE_CHARS)
     with col_b:
-        st.text_area("Response B", key="response_b", height=240)
+        st.text_area("Response B", key="response_b", height=240, max_chars=MAX_RESPONSE_CHARS)
     with st.expander("Reference answer (optional)"):
-        st.text_area("Reference", key="reference", height=100, label_visibility="collapsed",
+        st.text_area("Reference", key="reference", height=100, label_visibility="collapsed", max_chars=MAX_REFERENCE_CHARS,
                      placeholder="A known-good answer the judge can check correctness against")
 
 
@@ -142,6 +152,7 @@ def main():
             except AIError as error:
                 st.session_state.verdict, st.session_state.error = None, str(error)
             except Exception:
+                logger.exception("Unexpected error during evaluation")
                 st.session_state.verdict = None
                 st.session_state.error = "Something unexpected went wrong. Try again."
 
