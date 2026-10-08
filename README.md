@@ -1,5 +1,6 @@
 # ⚖️ LLM Response Evaluator
 
+![Tests](https://github.com/ivanedens55-web/REPO/actions/workflows/tests.yml/badge.svg)
 
 A Streamlit app that compares two AI responses to the same prompt and scores them against a rubric, using Google Gemini as the judge. It includes an optional position-bias check that re-runs the judgement with the responses swapped and flags it when the verdict changes.
 
